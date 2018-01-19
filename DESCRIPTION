@@ -1,0 +1,22 @@
+Package: StrmAnlyzeR
+Type: Package
+Title: TOD
+Version: 0.1.0.0
+Author: Samy Abdel-Ghaffar, Brian Kastl
+Maintainer: Samy Abdel-Ghaffar <samyag1@berkeley.edu>
+Description: TODO
+    TODO Line 2 Use four spaces when indenting paragraphs within the Description.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1.9000
+Imports:
+  assertthat,
+  tools,
+  utils,
+  foreign,
+  rgdal
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Depends: R (>= 2.10)

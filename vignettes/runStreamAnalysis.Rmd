@@ -1,0 +1,37 @@
+---
+title: "Run Stream Analysis"
+author: "Samy Abdel-Ghaffar"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Run Stream Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+TODO Write this vignette
+
+```{r}
+#load needed libraries
+library(rgdal)
+library(foreign)
+library(StrmAnlyzeR)
+
+# Do the analysis
+output_data <- StrmAnlyzeR::analyzeStreams()
+
+# save out the output data as a csv and OGR shape file
+#StrmAnlyzeR::writeData(output_data, 'output/Downstream_and_Upstream_Sample.csv', 'output/Sample_Shape_Files')
+```
+
+Finally, we can get all the relevant segment data for the up and down stream segments of the first gage station segment
+```{r}
+#first_up_down_data <- StrmAnlyzeR::getSegmentUpDownData(output_data$COMID[1], output_data, segment_data)
+```

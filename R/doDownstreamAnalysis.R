@@ -1,0 +1,37 @@
+doDownstreamAnalysis <- function(pct_threshold_down,
+                                 segment_data_gage,
+                                 segment_data,
+                                 valid_artificial_segments){
+
+  # create a dataframe with the new columns that we'll populate
+  vec_na <- rep(NA, nrow(segment_data_gage))
+  output_df <- data.frame('cum_len_down'=vec_na, 'step_n_down'=vec_na, 'down_COMIDs'=vec_na)
+
+  # iterate over all the segments with USGS gage stations
+  # and calculate the downstream segments whose
+  # total drainage area is greater than the threshold
+  for (cur_row in 1:nrow(segment_data_gage)) {
+
+    # get the COMID and drainage area (DA) of the current segment
+    cur_COMID <- segment_data_gage[cur_row, 'COMID']
+    cur_DA <- segment_data_gage[cur_row,'TotDASqKM']
+
+    # calculate the downstream segments below threshold for the current segment
+    vals <- findDownstreamSegments(cur_COMID,
+                                   cur_DA,
+                                   pct_threshold_down,
+                                   segment_data,
+                                   valid_artificial_segments)
+
+    # if there are any downstream segments within threshold, then calculate the
+    # information to store, and store it
+    if (length(vals) > 0) {
+      output_df[cur_row, 'cum_len_down'] <- sum(as.numeric(vals[, 'Length']))
+      output_df[cur_row, 'step_n_down'] <- nrow(vals)
+      output_df[cur_row, 'down_COMIDs'] <- paste(vals[, 'ToCOMID'], collapse=" ")
+    }
+  }
+
+  # return the updates segment_data for gage stations
+  return(output_df)
+}
