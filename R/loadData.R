@@ -33,7 +33,7 @@ loadData <- function(shapefile_folder=NULL,
     # only keep the fields in the segment_data that will be used in the analysis
     # And only keep the dataframe, getting rid of the lines and other data in the layer
     # since it's not used here, and just takes up memory
-    segment_fields <- c('COMID', 'TotDASqKM', 'FTYPE', 'LengthKM', 'GNIS_Name', 'ComID_1')
+    segment_fields <- c('COMID', 'TotDASqKM', 'FTYPE', 'LengthKM', 'GNIS_Name')
     segment_data_original <- segment_data_original@data[,segment_fields]
 
     # convert the COMID field from factor to string to integer

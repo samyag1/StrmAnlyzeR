@@ -31,7 +31,7 @@ preprocessData <- function(segment_data_original,
 
   # Remove segments that serve as from-segments for more than one node,
   # because they're upsteam of divergences and thus problematic
-  multi_from_segments <- segment_to_from_COMIDs$ComID_1[duplicated(segment_to_from_COMIDs$ComID_1)]
+  multi_from_segments <- segment_to_from_COMIDs$COMID[duplicated(segment_to_from_COMIDs$COMID)]
   segment_data <- subset(segment_data_original, !(segment_data_original$COMID %in% multi_from_segments))
   segment_to_from_COMIDs <- subset(segment_to_from_COMIDs, !(segment_to_from_COMIDs$COMID %in% multi_from_segments))
 

@@ -8,7 +8,7 @@ DEFAULT_FLOW_IDS_FILENAME = "Default_flow_IDs.dbf"
 DEFAULT_VALID_ARTIFICIAL_SEGMENTS_FILENAME = 'Default_valid_artificial_segments.csv'
 
 # Specify whether to overwrite the current system.rda file. Defaults to false to prevent accidents
-overwrite_current=FALSE
+overwrite_current=TRUE
 
 # call the preprocessData function with the default data files
 raw_data <- StrmAnlyzeR::loadData(shapefile_folder=DEFAULT_LAYER_NAME,
