@@ -48,7 +48,7 @@ loadData <- function(shapefile_folder=NULL,
     # TODO - support other file formats...
     #read in CSV of the USGS gage stations
     gages <- utils::read.csv(gages_filename, header=TRUE, stringsAsFactors = FALSE)
-    gages <- gages$NHDV2_COMID
+    gages <- gages$COMID
   }
 
   # if the user didn't pass in a filename for the to and from COMIDs for all segments
@@ -71,7 +71,7 @@ loadData <- function(shapefile_folder=NULL,
     #Read in file(s) containing TO-COMID and FROM-COMID
     valid_artificial_segments <- utils::read.csv(valid_artificial_segments_filename,
                                                 header=TRUE,
-                                                stringsAsFactors = FALSE)
+                                                stringsAsFactors = FALSE)$ComID
   }
 
   # return all the dataframes in a list
