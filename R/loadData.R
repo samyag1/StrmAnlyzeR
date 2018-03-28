@@ -71,7 +71,7 @@ loadData <- function(shapefile_folder=NULL,
     #Read in file(s) containing TO-COMID and FROM-COMID
     valid_artificial_segments <- utils::read.csv(valid_artificial_segments_filename,
                                                 header=TRUE,
-                                                stringsAsFactors = FALSE)$ComID
+                                                stringsAsFactors = FALSE)$COMID
   }
 
   # return all the dataframes in a list
