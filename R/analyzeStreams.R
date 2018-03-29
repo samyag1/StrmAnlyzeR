@@ -62,7 +62,8 @@ analyzeStreams <- function(pct_threshold_down = 1.1,
   down_output <- doDownstreamAnalysis(pct_threshold_down,
                                       segment_data_gage,
                                       segment_data,
-                                      valid_artificial_segments)
+                                      valid_artificial_segments,
+                                      segment_to_from_COMIDs)
 
   #####################################
   # Do Upstream analysis

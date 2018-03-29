@@ -2,56 +2,66 @@
 findDownstreamSegments <- function(comid,
                                    original_DA,
                                    pct_threshold,
+                                   segment_to_from_COMIDs,
                                    segment_data,
                                    valid_artificial_segments) {
 
   # find the downstream node that connects to the current node
-  down_COMID <- segment_data[segment_data$COMID == comid,]$TOCOMID
+  downstream_COMIDs <- segment_to_from_COMIDs[segment_to_from_COMIDs$COMID==comid,'TOCOMID']
 
   # get the relevant fields for the downstream segment
   fields_used <- c('TotDASqKM', 'LengthKM', 'COMID', 'FTYPE')
-  down_vals <- segment_data[segment_data$COMID == down_COMID,fields_used]
 
   # If the downstream segment doesn't exist, it's because it was removed as a replicate (i.e. divergence)
   # So only get it's value if it is present
   lens <- c()
   down_COMIDs <- c()
-  if (nrow(down_vals) > 0 & !is.na(down_COMID)) {
+  for (cur_down_COMID in downstream_COMIDs){
+
+    # get the current upstream node's fields used
+    cur_down_vals <- segment_data[segment_data$COMID == cur_down_COMID, fields_used]
 
     # get the current upstream node's drainage area
-    down_DA <- down_vals[1,'TotDASqKM']
+    cur_down_DA <- cur_down_vals[1,'TotDASqKM']
 
     # calculate the percentage of the original DA that the current upstream node's DA takes up
-    DA_pcnt <- down_DA / original_DA
+    cur_DA_pcnt <- cur_down_DA / original_DA
 
     # get teh FTYPE for the current upstram node
-    down_ftype <- down_vals[1,'FTYPE']
+    cur_down_ftype <- cur_down_vals[1,'FTYPE']
 
-    # if the downstream percentage of the original is less than the perentage threshold and it's a valid node
-    # then add it to the return list and call this function recursively on the current downstream node
-    if (DA_pcnt < pct_threshold & isValidNode(down_COMID, down_ftype, valid_artificial_segments)) {
+    # if the current upstream node is more than the percentage threshold we've defined, then
+    # add it to our list of above threshold upstream nodes, and recursively call this function
+    # on the current upstream node
+    #  if (cur.DA.pcnt > pct & !is.na(cur.up.ftype) & cur.up.ftype == 'StreamRiver') {
+    if (cur_DA_pcnt < pct_threshold & isValidNode(cur_down_COMID, cur_down_ftype, valid_artificial_segments)) {
 
-      # get the length of the downstream segment
-      down_length <- down_vals[1,'LengthKM']
+      # get the current downstream's segment length
+      cur_down_length <- cur_down_vals[1,'LengthKM']
 
-      # add the current downstream node to our return list
-      lens <- c(down_length)
-      down_COMIDs <- c(down_COMID)
+      # add the current upstream node values to the return vectors
+      lens <- c(cur_down_length)
+      down_COMIDs <- c(cur_down_COMID)
 
       # recursively call this function on the current upstream node
-      recursive_vals <- findDownstreamSegments(down_COMID,
+      recursive_vals <- findDownstreamSegments(cur_down_COMID,
                                                original_DA,
                                                pct_threshold,
+                                               segment_to_from_COMIDs,
                                                segment_data,
                                                valid_artificial_segments)
 
-      # if there were more downstream segments below threshold, then add them to the return values
       if (nrow(recursive_vals) > 0) {
         # now concotanote the results of the recusive call with those of the current call
-        lens <- c(lens, recursive_vals[, 'Length'])
-        down_COMIDs <- c(down_COMIDs, recursive_vals[, 'ToCOMID'])
+        lens <- c(lens, recursive_vals$Length)
+        down_COMIDs <- c(down_COMIDs, recursive_vals$ToCOMID)
       }
+
+      # now break out since only 1 upstream node can be above thr threshold
+      break
     }
+
+    # otherwise move on to the next upstream node
   }
 
   # retrun a vector of the vectors we care about (DA, length, FTYPE)

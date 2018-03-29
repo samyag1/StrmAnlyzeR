@@ -25,6 +25,13 @@ doUpstreamAnalysis <- function(pct_threshold_up,
                                  valid_artificial_segments)
 
     if (length(vals) > 0) {
+
+      # first check that there are no duplicate entries, since we now allow divergences, which
+      # means that streams can split apart and come back together.
+      duplicates = duplicated(vals$FromCOMID)
+      vals = vals[!duplicates,]
+
+      # calculate summary stats and store the upstream segments
       output_df[cur_row, 'cum_len_up'] <- sum(as.numeric(vals[, 'Length']))
       output_df[cur_row, 'step_n_up'] <- nrow(vals)
       output_df[cur_row, 'up_COMIDs'] <- paste(vals[, 'FromCOMID'], collapse=" ")

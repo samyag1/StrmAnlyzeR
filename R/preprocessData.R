@@ -31,12 +31,14 @@ preprocessData <- function(segment_data_original,
 
   # Remove segments that serve as from-segments for more than one node,
   # because they're upsteam of divergences and thus problematic
-  multi_from_segments <- segment_to_from_COMIDs$COMID[duplicated(segment_to_from_COMIDs$COMID)]
-  segment_data <- subset(segment_data_original, !(segment_data_original$COMID %in% multi_from_segments))
-  segment_to_from_COMIDs <- subset(segment_to_from_COMIDs, !(segment_to_from_COMIDs$COMID %in% multi_from_segments))
+#  multi_from_segments <- segment_to_from_COMIDs$COMID[duplicated(segment_to_from_COMIDs$COMID)]
+#  segment_data <- subset(segment_data_original, !(segment_data_original$COMID %in% multi_from_segments))
+#  segment_to_from_COMIDs <- subset(segment_to_from_COMIDs, !(segment_to_from_COMIDs$COMID %in% multi_from_segments))
+  # make segment data just be the original data without removing duplicates
+  segment_data = segment_data_original
 
   # Add the TOCOMID values to the segment_data as a column
-  segment_data$TOCOMID <- segment_to_from_COMIDs[order(match(segment_to_from_COMIDs$COMID, segment_data$COMID)),]$TOCOMID
+  #segment_data$TOCOMID <- segment_to_from_COMIDs[order(match(segment_to_from_COMIDs$COMID, segment_data$COMID)),]$TOCOMID
 
   # remove the rows in the segment_to_from_COMIDs dataframe that have missing ToCOMIDs and onbly keep
   # the necessary columns, namely COMID and TOCOMID
