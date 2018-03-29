@@ -19,6 +19,16 @@ analyzeStreams <- function(pct_threshold_down = 1.1,
                     valid_artificial_segments_filename=NULL) {
 
   ##############################################################
+  ######## Error Checking #########################
+  ##############################################################
+  if (pct_threshold_down > 1.5){
+    stop(sprintf('Provided downstream threshold greater than 50 percent, which is invalid: %.02f', pct_threshold_down))
+  }
+  if (pct_threshold_up < 0.5){
+    stop(sprintf('Provided upstream threshold greater than 50 percent, which is invalid: %.02f', pct_threshold_up))
+  }
+
+  ##############################################################
   ########READ IN AND PROCESS RAW DATA #########################
   ##############################################################
 
