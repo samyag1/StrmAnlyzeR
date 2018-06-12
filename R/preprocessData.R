@@ -44,6 +44,11 @@ preprocessData <- function(segment_data_original,
   # the necessary columns, namely COMID and TOCOMID
   segment_to_from_COMIDs <- segment_to_from_COMIDs[!is.na(segment_to_from_COMIDs$TOCOMID),c('TOCOMID','COMID')]
 
+  # Remove all rows where the TOCOMID & COMID are 0. This happens when a segment ends (or begins),
+  # either at the ocean, a lake or just from man made reasons.
+  segment_to_from_COMIDs <- segment_to_from_COMIDs[segment_to_from_COMIDs$TOCOMID!=0,]
+  segment_to_from_COMIDs <- segment_to_from_COMIDs[segment_to_from_COMIDs$COMID!=0,]
+
   ##########################################################################################
   ###################### Create a Subset for just the USGS gage stations ###################
   ##########################################################################################

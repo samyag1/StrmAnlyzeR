@@ -41,7 +41,7 @@ loadData <- function(shapefile_folder=NULL,
     # since it's not used here, and just takes up memory
     segment_fields <- c('COMID', 'TotDASqKM', 'FTYPE', 'LengthKM', 'GNIS_Name')
     for (cur_field in segment_fields){
-      if (!(cur_field %in% colnames(segment_data_original))){
+      if (!(cur_field %in% colnames(segment_data_original@data))){
         stop(sprintf('%s field missing from gages file. Please check spelling of column header in csv file.', cur_field))
       }
     }
