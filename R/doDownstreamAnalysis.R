@@ -16,9 +16,15 @@ doDownstreamAnalysis <- function(pct_threshold_down,
     # get the COMID and drainage area (DA) of the current segment
     cur_COMID <- segment_data_gage[cur_row, 'COMID']
     cur_DA <- segment_data_gage[cur_row,'TotDASqKM']
-    if (cur_COMID==12076098){
-      x=1
+
+    # Do some error checking to fail explicitly, instead of later on
+    if (cur_DA == 0) {
+      stop(sprintf('Drainage area (TotDASqKM) equals 0 for COMID: %s', cur_COMID))
     }
+    if (is.na(cur_DA)) {
+      stop(sprintf('Drainage area (TotDASqKM) is NA for COMID: %s', cur_COMID))
+    }
+
     # calculate the downstream segments below threshold for the current segment
     vals <- findDownstreamSegments(cur_COMID,
                                    cur_DA,

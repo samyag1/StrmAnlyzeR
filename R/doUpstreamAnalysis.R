@@ -16,6 +16,14 @@ doUpstreamAnalysis <- function(pct_threshold_up,
     cur_COMID <- segment_data_gage[cur_row, 'COMID']
     cur_DA <- segment_data_gage[cur_row,'TotDASqKM']
 
+    # Do some error checking to fail explicitly, instead of later on
+    if (cur_DA == 0) {
+      stop(sprintf('Drainage area (TotDASqKM) equals 0 for COMID: %s', cur_COMID))
+    }
+    if (is.na(cur_DA)) {
+      stop(sprintf('Drainage area (TotDASqKM) is NA for COMID: %s', cur_COMID))
+    }
+
     # find the upstream segments that are within threshold for the current gage segment
     vals <- findUpstreamSegments(cur_COMID,
                                  cur_DA,
