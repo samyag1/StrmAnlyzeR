@@ -20,8 +20,5 @@ getAllThresholdedCOMIDs <- function(final_output){
   # remove duplicates
   total_COMIDs_single <- total_COMIDs_single[!duplicated(total_COMIDs_single)]
 
-  # remove segments with gages
-  total_COMIDs_single <- total_COMIDs_single[!(total_COMIDs_single %in% final_output$COMID)]
-
   return(total_COMIDs_single)
 }
