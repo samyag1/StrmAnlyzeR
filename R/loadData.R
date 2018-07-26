@@ -42,7 +42,7 @@ loadData <- function(shapefile_folder=NULL,
     segment_fields <- c('COMID', 'TotDASqKM', 'FTYPE', 'LengthKM', 'GNIS_Name')
     for (cur_field in segment_fields){
       if (!(cur_field %in% colnames(segment_data_original@data))){
-        stop(sprintf('%s field missing from gages file. Please check spelling of column header in csv file.', cur_field))
+        stop(sprintf('%s field missing from shape file. Please check spelling of field in OGR file.', cur_field))
       }
     }
     segment_data_original <- segment_data_original@data[,segment_fields]
@@ -65,7 +65,7 @@ loadData <- function(shapefile_folder=NULL,
     if (!('COMID' %in% colnames(gages))){
       stop('COMID field missing from gages file. Please check spelling of column header in csv file.')
     }
-    gages <- gages$COMID
+    gages <- unique(gages$COMID)
   }
 
   # if the user didn't pass in a filename for the to and from COMIDs for all segments
