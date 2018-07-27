@@ -1,40 +1,40 @@
 #' Title
 #'
-#' @param shapefile_folder
+#' @param NHDFlowline_folder
 #' @param gages_filename
-#' @param flow_ids_filename
+#' @param to_from_COMIDs_filename
 #' @param valid_artificial_segments_filename
 #'
 #' @return
 #' @export
 #'
 #' @examples
-loadData <- function(shapefile_folder=NULL,
+loadData <- function(NHDFlowline_folder=NULL,
                      gages_filename=NULL,
-                     flow_ids_filename=NULL,
+                     to_from_COMIDs_filename=NULL,
                      valid_artificial_segments_filename=NULL) {
 
   # determine if the user specified custom input files to use, in which case
   # the perprocessData function will be used to load and process that data
-  if (is.null(shapefile_folder)){
+  if (is.null(NHDFlowline_folder)){
     # if they didn't pass in a layer name then
     # they want to use the internal default dataframe
     segment_data_original <- default_segment_data_original
   } else{
-    if (!file.exists(shapefile_folder)){
-      stop(sprintf('Invalid shapefile folder provided: %s', shapefile_folder))
+    if (!file.exists(NHDFlowline_folder)){
+      stop(sprintf('Invalid shapefile folder provided: %s', NHDFlowline_folder))
     }
     # determine the layer name by reading the filenames in the shapefile folder.
     # All the files in that folder should have the same file title, just different
     # file extensions, and that file title is the layer name expected by readOGR
-    shape_filenames <- list.files(shapefile_folder, include.dirs = F, recursive=T)
+    shape_filenames <- list.files(NHDFlowline_folder, include.dirs = F, recursive=T)
     if (length(shape_filenames)==0){
-      stop(sprintf('No files in the shapefile folder provided: %s', shapefile_folder))
+      stop(sprintf('No files in the shapefile folder provided: %s', NHDFlowline_folder))
     }
     layer_name <- tools::file_path_sans_ext(shape_filenames[1])
 
     # read in the shape file which contains all the data about the water segments
-    segment_data_original <- rgdal::readOGR(dsn = shapefile_folder, layer = layer_name)
+    segment_data_original <- rgdal::readOGR(dsn = NHDFlowline_folder, layer = layer_name)
 
     # only keep the fields in the segment_data that will be used in the analysis
     # And only keep the dataframe, getting rid of the lines and other data in the layer
@@ -70,15 +70,15 @@ loadData <- function(shapefile_folder=NULL,
 
   # if the user didn't pass in a filename for the to and from COMIDs for all segments
   # use the default, otherwise load what they passed in
-  if (is.null(flow_ids_filename)) {
+  if (is.null(to_from_COMIDs_filename)) {
     flow_ids <- default_flow_ids
   } else {
     # TODO - support other file formats...
-    if (!file.exists(flow_ids_filename)){
-      stop(sprintf('Invalid flow_ids filename provided: %s', flow_ids_filename))
+    if (!file.exists(to_from_COMIDs_filename)){
+      stop(sprintf('Invalid flow_ids filename provided: %s', to_from_COMIDs_filename))
     }
     #Read in file(s) containing TO-COMID and FROM-COMID
-    flow_ids <- foreign::read.dbf(flow_ids_filename)
+    flow_ids <- foreign::read.dbf(to_from_COMIDs_filename)
     if (!('TOCOMID' %in% colnames(flow_ids))){
       stop('TOCOMID field missing from flow_ids file. Please check spelling of column header in database file.')
     }

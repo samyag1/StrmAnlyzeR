@@ -5,8 +5,9 @@
 \title{Title}
 \usage{
 analyzeStreams(pct_threshold_down = 1.1, pct_threshold_up = 0.9,
-  shapefile_folder = NULL, gages_filename = NULL,
-  flow_ids_filename = NULL, valid_artificial_segments_filename = NULL)
+  NHDFlowline_folder = NULL, gages_filename = NULL,
+  to_from_COMIDs_filename = NULL, valid_artificial_segments_filename = NULL,
+  breakpoint_COMIDs = NULL)
 }
 \arguments{
 \item{valid_artificial_segments_filename}{}

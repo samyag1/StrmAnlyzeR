@@ -2,6 +2,7 @@
 
 export(analyzeStreams)
 export(getCOMIDsWithinThreshold)
+export(getDebugInfo)
 export(getSegmentUpDownData)
 export(loadData)
 export(preprocessData)

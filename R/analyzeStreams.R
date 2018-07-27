@@ -2,9 +2,9 @@
 #'
 #' @param pct_threshold_down
 #' @param pct_threshold_up
-#' @param shapefile_folder
+#' @param NHDFlowline_folder
 #' @param gages_filename
-#' @param flow_ids_filename
+#' @param to_from_COMIDs_filename
 #' @param valid_artificial_segments_filename
 #'
 #' @return
@@ -13,10 +13,11 @@
 #' @examples
 analyzeStreams <- function(pct_threshold_down = 1.1,
                     pct_threshold_up = .9,
-                    shapefile_folder=NULL,
+                    NHDFlowline_folder=NULL,
                     gages_filename=NULL,
-                    flow_ids_filename=NULL,
-                    valid_artificial_segments_filename=NULL) {
+                    to_from_COMIDs_filename=NULL,
+                    valid_artificial_segments_filename=NULL,
+                    breakpoint_COMIDs=NULL) {
 
   ##############################################################
   ######## Error Checking #########################
@@ -33,16 +34,16 @@ analyzeStreams <- function(pct_threshold_down = 1.1,
   ##############################################################
 
   # load the raw data into memory if at least one filename is provided by the user
-  load_data <- (!is.null(shapefile_folder) |
+  load_data <- (!is.null(NHDFlowline_folder) |
                 !is.null(gages_filename) |
-                !is.null(flow_ids_filename) |
+                !is.null(to_from_COMIDs_filename) |
                 !is.null(valid_artificial_segments_filename))
   if (load_data){
 
     # load the raw dataframes
-    raw_data <- loadData(shapefile_folder,
+    raw_data <- loadData(NHDFlowline_folder,
                          gages_filename,
-                         flow_ids_filename,
+                         to_from_COMIDs_filename,
                          valid_artificial_segments_filename)
 
     # Now preprocess the data using the data structures we just loaded
@@ -73,7 +74,8 @@ analyzeStreams <- function(pct_threshold_down = 1.1,
                                       segment_data_gage,
                                       segment_data,
                                       valid_artificial_segments,
-                                      segment_to_from_COMIDs)
+                                      segment_to_from_COMIDs,
+                                      breakpoint_COMIDs)
 
   #####################################
   # Do Upstream analysis
@@ -85,7 +87,8 @@ analyzeStreams <- function(pct_threshold_down = 1.1,
                                   segment_data_gage,
                                   segment_data,
                                   valid_artificial_segments,
-                                  segment_to_from_COMIDs)
+                                  segment_to_from_COMIDs,
+                                  breakpoint_COMIDs)
 
   #####################################
   # Assemble Final Output

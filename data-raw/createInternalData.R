@@ -2,18 +2,18 @@ library(rgdal)
 library(foreign)
 
 # define the default filenames to be used in the internal data
-DEFAULT_LAYER_NAME = 'Default_NHDFlowline'
-DEFAULT_GAGES_FILENAME <- "Default_CA_gages.csv"
-DEFAULT_FLOW_IDS_FILENAME = "Default_flow_IDs.dbf"
+DEFAULT_NHDFLOWLINE_FOLDER = 'Default_NHDFlowline'
+DEFAULT_GAGES_FILENAME <- "Default_gages.csv"
+DEFAULT_to_from_COMIDs_filename = "Default_to_from_COMIDs.dbf"
 DEFAULT_VALID_ARTIFICIAL_SEGMENTS_FILENAME = 'Default_valid_artificial_segments.csv'
 
 # Specify whether to overwrite the current system.rda file. Defaults to false to prevent accidents
 overwrite_current=TRUE
 
 # call the preprocessData function with the default data files
-raw_data <- StrmAnlyzeR::loadData(shapefile_folder=DEFAULT_LAYER_NAME,
+raw_data <- StrmAnlyzeR::loadData(shapefile_folder=DEFAULT_NHDFLOWLINE_FOLDER,
                     gages_filename = DEFAULT_GAGES_FILENAME,
-                    flow_ids_filename=DEFAULT_FLOW_IDS_FILENAME,
+                    to_from_COMIDs_filenamee=DEFAULT_to_from_COMIDs_filename,
                     valid_artificial_segments_filename=DEFAULT_VALID_ARTIFICIAL_SEGMENTS_FILENAME)
 
 # store the raw data loaded into the default names for storage

@@ -2,7 +2,8 @@ doUpstreamAnalysis <- function(pct_threshold_up,
                                segment_data_gage,
                                segment_data,
                                valid_artificial_segments,
-                               segment_to_from_COMIDs) {
+                               segment_to_from_COMIDs,
+                               breakpoint_COMIDs=NULL) {
 
   # create a dataframe with the new columns that we'll populate
   vec_na <- rep(NA, nrow(segment_data_gage))
@@ -24,6 +25,14 @@ doUpstreamAnalysis <- function(pct_threshold_up,
     if (is.na(cur_DA)) {
       print(sprintf('Drainage area (TotDASqKM) is NA for COMID: %s. Continuing analysis', cur_COMID))
       next
+    }
+
+    # if breakpoint_COMIDs has been passed in, and the current COMID is in that vector
+    # then use the browser() function to invoke the debugger to halt
+    if (!is.null(breakpoint_COMIDs)){
+      if (cur_COMID %in% breakpoint_COMIDs) {
+        browser()
+      }
     }
 
     # find the upstream segments that are within threshold for the current gage segment
