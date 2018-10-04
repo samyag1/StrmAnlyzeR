@@ -15,6 +15,13 @@ findUpstreamSegments <- function(comid,
   up_COMIDs <- c()
   for (cur_up_COMID in upstream_COMIDs){
 
+    # It's possible that a downstream COMID can be int he TO COMIDs file, but not the
+    # Flowline shapefile (segment_data), in which case print a message and move on.
+    if (!cur_up_COMID %in% segment_data$COMID){
+      print(sprintf('Encountered From COMID: %i that is not in the flowline shapefile. Continuing analysis', cur_up_COMID))
+      next
+    }
+
     # get the current upstream node's fields used
     cur_up_vals <- segment_data[segment_data$COMID == cur_up_COMID, fields_used]
 

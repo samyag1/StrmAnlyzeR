@@ -18,6 +18,13 @@ findDownstreamSegments <- function(comid,
   down_COMIDs <- c()
   for (cur_down_COMID in downstream_COMIDs){
 
+    # It's possible that a downstream COMID can be int he TO COMIDs file, but not the
+    # Flowline shapefile (segment_data), in which case print a message and move on.
+    if (!cur_down_COMID %in% segment_data$COMID){
+      print(sprintf('Encountered To COMID: %i that is not in the flowline shapefile. Continuing analysis', cur_down_COMID))
+      next
+    }
+
     # get the current upstream node's fields used
     cur_down_vals <- segment_data[segment_data$COMID == cur_down_COMID, fields_used]
 
@@ -61,7 +68,7 @@ findDownstreamSegments <- function(comid,
       break
     }
 
-    # otherwise move on to the next upstream node
+    # otherwise move on to the next downstream node
   }
 
   # retrun a vector of the vectors we care about (DA, length, FTYPE)
