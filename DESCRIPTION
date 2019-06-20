@@ -1,22 +1,26 @@
 Package: StrmAnlyzeR
 Type: Package
-Title: TOD
-Version: 0.1.0.0
-Author: Samy Abdel-Ghaffar, Brian Kastl
-Maintainer: Samy Abdel-Ghaffar <samyag1@berkeley.edu>
-Description: TODO
-    TODO Line 2 Use four spaces when indenting paragraphs within the Description.
+Title: Package to determine drainage area flows from NHS gage stations
+Version: 0.1.0
+Authors@R: c(
+    person("Samy", "Abdel-Ghaffar", email = "samyag1@berkeley.edu", role = c("aut", "cre")), 
+    person("Brian", "Kastl", email = "bkastl@berkeley.edu", role = "aut"), 
+    person("Ted", "Grantham", email = "tgrantham@berkeley.edu", role = "aut"))
+Description: This package uses <NHD flowline> data to locate the upstream and 
+    downstream stream segments whose drainage area is within a percentage of
+    the drainage area of gage stations (provided by user).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.1
 Imports:
-  assertthat,
-  tools,
-  utils,
-  foreign,
-  rgdal
-Suggests: knitr,
-    rmarkdown
+    assertthat (>= 0.2.0),
+    foreign (>= 0.8-71),
+    rgdal (>= 1.4-4),
+    tools (>= 3.4.4),
+    utils (>= 3.4.4)
+Suggests: 
+    knitr (>= 1.23),
+    rmarkdown (>= 1.8)
 VignetteBuilder: knitr
-Depends: R (>= 2.10)
+Depends: R (>= 3.4.4)

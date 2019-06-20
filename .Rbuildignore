@@ -1,5 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^packrat/
 ^\.Rprofile$
+^\.Rhistory$
+^packrat/
 ^data-raw/
+^.git*$
+get_debug_info.R
