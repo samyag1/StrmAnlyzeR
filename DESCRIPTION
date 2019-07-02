@@ -1,14 +1,14 @@
 Package: StrmAnlyzeR
 Type: Package
-Title: Package to determine drainage area flows from NHS gage stations
+Title: Package to identify the stream segments within a specified drainage area change threshold from stream gages of interest.
 Version: 0.1.0
 Authors@R: c(
     person("Samy", "Abdel-Ghaffar", email = "samyag1@berkeley.edu", role = c("aut", "cre")), 
     person("Brian", "Kastl", email = "bkastl@berkeley.edu", role = "aut"), 
     person("Ted", "Grantham", email = "tgrantham@berkeley.edu", role = "aut"))
-Description: This package uses <NHD flowline> data to locate the upstream and 
-    downstream stream segments whose drainage area is within a percentage of
-    the drainage area of gage stations (provided by user).
+Description: This package uses <NHD flowline> data to identify the upstream and 
+    downstream stream segments located within a user-defined percentage of
+    the drainage area of stream gages.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
