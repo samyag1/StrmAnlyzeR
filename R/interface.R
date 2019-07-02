@@ -1,4 +1,4 @@
-#' Stream Network Analysis
+#' Gaged Stream Network
 #'
 #' The user provides stream gages of interest, and the main package function determines the upstream and downstream National Hydrography Dataset (NHD) stream segments and total stream network length that 
 #' are within a user-defined drainage area percentage threshold of gages.
