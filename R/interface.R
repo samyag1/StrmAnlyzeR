@@ -9,7 +9,7 @@
 #' (the default contains information for California) along with a custom
 #' dbf databse containing the To and From COMIDs that indicate connections
 #' between all the stream segments. Finally, some valid stream segments are
-#' labeled as "artifical" segments for various reasons, and these
+#' labeled as "artificial" segments for various reasons, and these
 #' can be specified for inclusion in the analysis.
 #'
 #' @param pct_threshold_down Numeric Scalar. Threshold for inclusion in
