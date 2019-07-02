@@ -1,16 +1,15 @@
 #' Stream Network Analysis
 #'
-#' Main package function to determine, for all gage station segments
-#' provided, the upstream and downstream stream segments whose drainage
-#' area is within the percentage thresholds provided.
+#' Main package function is to determine the upstream and downstream National Hydrography Dataset (NHD) stream segments that 
+#' are within a user-defined drainage area percentage threshold of a stream segment of interest.
 #'
-#' General use will be to provide the upstream and downstream percentage
-#' threshold parameters and a list of gage stations to analyze. Additionally
-#' custom NHD Flowline shape files can be provided for the region of interest
+#' General user input include: 1) a list of gage stations to analyze, and 2) the upstream and downstream drainage area percentage
+#' threshold parameters. Additionally, the user can provide
+#' custom NHD Flowline shape files for the region of interest
 #' (the default contains information for California) along with a custom
 #' dbf databse containing the To and From COMIDs that indicate connections
 #' between all the stream segments. Finally, some valid stream segments are
-#' labeled as artifical segments for various reasons, and these
+#' labeled as "artifical" segments for various reasons, and these
 #' can be specified for inclusion in the analysis.
 #'
 #' @param pct_threshold_down Numeric Scalar. Threshold for inclusion in
