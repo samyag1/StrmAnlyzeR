@@ -1,7 +1,7 @@
 #' Stream Network Analysis
 #'
-#' Main package function is to determine the upstream and downstream National Hydrography Dataset (NHD) stream segments that 
-#' are within a user-defined drainage area percentage threshold of a stream segment of interest.
+#' The user provides stream gages of interest, and the main package function determines the upstream and downstream National Hydrography Dataset (NHD) stream segments and total stream network length that 
+#' are within a user-defined drainage area percentage threshold of gages.
 #'
 #' General user input include: 1) a list of gage stations to analyze, and 2) the upstream and downstream drainage area percentage
 #' threshold parameters. Additionally, the user can provide
@@ -111,8 +111,8 @@ analyze_streams <- function(pct_threshold_down = 1.1,
   # Do Downstream analysis
   #####################################
 
-  # do the upstream analysis which will find all the upstream segments
-  # whose drainage area is below the threshold percentage of the original
+  # do the downstream analysis, which will find all the downstream segments
+  # that have a drainage area within the threshold percentage of the original
   # segment, for all gage segments
   down_output <- do_downstream_analysis(pct_threshold_down,
                                         segment_data_gage,
@@ -124,8 +124,8 @@ analyze_streams <- function(pct_threshold_down = 1.1,
   # Do Upstream analysis
   #####################################
 
-  # do the upstream analysis which will find all the upstream segments
-  # whose drainage area is below the threshold percentage of the original
+  # do the upstream analysis, which will find all the downstream segments
+  # that have a drainage area within the threshold percentage of the original
   # segment, for all gage segments
   up_output <- do_upstream_analysis(pct_threshold_up,
                                     segment_data_gage,
@@ -137,7 +137,7 @@ analyze_streams <- function(pct_threshold_down = 1.1,
   # Assemble Final Output
   #####################################
 
-  # concatonate the up and down output with the final output
+  # concatonate the upstream and downstram output with the final output
   final_output <- cbind(segment_data_gage, down_output, up_output)
 
   # finally calculate the sum of the upstream and downstream segments
@@ -154,17 +154,17 @@ analyze_streams <- function(pct_threshold_down = 1.1,
                                           up_output$up_COMIDs,
                                           segment_data_gage$COMID)
 
-  # Get the COMIDs for all the up/down segments within threshold
+  # Get the COMIDs for all the upstream/downstream segments within threshold
   # that do not have gage stations
   up_down_COMIDs_nogage <- get_thresholded_COMIDs(final_output)
 
-  # now get all the segment data for the up and down segments
+  # now get all the segment data for the upstream and downstream segments
   # that do not have gage stations
   segment_data_up_down <- segment_data[segment_data$COMID %in%
                                          up_down_COMIDs_nogage, ]
 
-  # find all the columns from final_output that aren't in the new
-  # segment up/down segment data, and add them to the segment_data_up_down
+  # find all the columns from final_output that are not in the new
+  # segment upstream/downstream segment data, and add them to the segment_data_up_down
   # with all NA values
   columns_not_up_down <- colnames(final_output)
   columns_not_up_down <- columns_not_up_down[!(columns_not_up_down %in%
@@ -175,13 +175,13 @@ analyze_streams <- function(pct_threshold_down = 1.1,
   final_output <- rbind(final_output, segment_data_up_down)
 
   # create a column that indicates whether the segment contains a
-  # gage station since we will add all segments within the up/down
+  # gage station, since we will add all segments within the upstream/downstream
   # thresholds to the final output dataframe and many of those
   # do not have gage stations
   final_output[, "has_gage"] <- !(final_output$COMID %in%
                                   up_down_COMIDs_nogage)
 
-  # Return the dataframe containing all the up and downstream
+  # Return the dataframe containing all the upstream and downstream
   # data calculated for all the segments containing USGS gage stations
   return(final_output)
 }
@@ -211,19 +211,19 @@ get_segment_data <- function(segment_COMID, output_data){
   up_down_COMIDs <- output_data[output_data$COMID == segment_COMID,
                                 "total_COMIDs"]
 
-  # split that list into the up and down stream COMIDs
+  # split that list into the upstream and downstream COMIDs
   up_down_COMIDs <- as.numeric(unlist(strsplit(up_down_COMIDs, " ")))
 
   # remove the NAs
   up_down_COMIDs <- up_down_COMIDs[!is.na(up_down_COMIDs)]
 
-  # now get all the segment data for the up and down segments and return it
+  # now get all the segment data for the upstream and downstream segments and return it
   segment_up_down_data <- output_data[output_data$COMID %in% up_down_COMIDs, ]
   return(segment_up_down_data)
 }
 
 
-#' Write Stream Netowrk Analysis Output
+#' Write Stream Network Analysis Output
 #'
 #' Function to write out the results of the stream network analysis
 #' returned from the \code{analyze_streams()} function. Output can
